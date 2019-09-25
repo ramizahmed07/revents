@@ -16,6 +16,9 @@ const SettingsNav = () => {
         <Menu.Item as={NavLink} to='/settings/photos'>
           My Photos
         </Menu.Item>
+        <Menu.Item as={NavLink} to='/settings/myevents'>
+          My Events
+        </Menu.Item>
       </Menu>
       <Menu vertical>
         <Header

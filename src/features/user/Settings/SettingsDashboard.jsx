@@ -9,6 +9,7 @@ import PhotosPage from './Photos/PhotosPage';
 import AccountPage from './AccountPage';
 import { updatePassword } from '../../auth/authActions';
 import { updateProfile } from '../../user/userActions';
+import MyEvents from './myEvents/MyEvents';
 
 const actions = {
   updatePassword,
@@ -53,6 +54,7 @@ const SettingsDashboard = ({
               />
             )}
           />
+          <Route path='/settings/myevents' component={MyEvents} />
         </Switch>
       </Grid.Column>
       <Grid.Column width={4}>
