@@ -10,7 +10,7 @@ var firebaseConfig = {
   authDomain: 'revents-3f371.firebaseapp.com',
   databaseURL: 'https://revents-3f371.firebaseio.com',
   projectId: 'revents-3f371',
-  storageBucket: '',
+  storageBucket: 'revents-3f371.appspot.com',
   messagingSenderId: '651138419637',
   appId: '1:651138419637:web:23223582baed18baace7fc',
   measurementId: 'G-5FRNR0HTHF'

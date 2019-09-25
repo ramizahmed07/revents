@@ -19,7 +19,7 @@ let render = () => {
     <Provider store={store}>
       <BrowserRouter>
         <ScrollToTop>
-          <ReduxToastr
+          <ReduxToastr 
             position='bottom-right'
             transitionIn='fadeIn'
             transitionOut='fadeOut'
@@ -38,7 +38,9 @@ if (module.hot) {
   });
 }
 
-render();
+store.firebaseAuthIsReady.then(() => {
+  render();
+})
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
