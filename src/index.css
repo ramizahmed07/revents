@@ -118,3 +118,8 @@ body {
 .dropzone--isActive {
   border: dashed 3px green;
 }
+
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}

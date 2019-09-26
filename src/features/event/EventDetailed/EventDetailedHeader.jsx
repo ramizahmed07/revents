@@ -1,91 +1,46 @@
-import React, { Fragment } from 'react';
-import { Segment, Image, Item, Header, Button } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { format } from 'date-fns';
+import React from "react";
 
-const eventImageStyle = {
-  filter: 'brightness(30%)'
-};
+import { Gallery, GalleryImage } from "react-gesture-gallery";
 
-const eventImageTextStyle = {
-  position: 'absolute',
-  bottom: '5%',
-  left: '5%',
-  width: '100%',
-  height: 'auto',
-  color: 'white'
-};
+const images = [
+  "https://images.unsplash.com/photo-1559666126-84f389727b9a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1356&q=80",
+  "https://images.unsplash.com/photo-1557389352-e721da78ad9f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+  "https://images.unsplash.com/photo-1553969420-fb915228af51?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1049&q=80",
+  "https://images.unsplash.com/photo-1550596334-7bb40a71b6bc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+  "https://images.unsplash.com/photo-1550640964-4775934de4af?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
+];
 
-const EventDetailedHeader = ({
-  event,
-  isHost,
-  isGoing,
-  goingToEvent,
-  cancelGoingToEvent
-}) => {
+const EventDetailedHeader = () => {
+  const [index, setIndex] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      if (index === 4) {
+        setIndex(0);
+      } else {
+        setIndex(prev => prev + 1);
+      }
+    }, 3000);
+    return () => clearInterval(timer);
+  }, [index]);
+
   return (
-    <Segment.Group>
-      <Segment basic attached='top' style={{ padding: '0' }}>
-        <Image
-          src={`/assets/categoryImages/${event.category}.jpg`}
-          fluid
-          style={eventImageStyle}
-        />
-
-        <Segment basic style={eventImageTextStyle}>
-          <Item.Group>
-            <Item>
-              <Item.Content>
-                <Header
-                  size='huge'
-                  content={event.title}
-                  style={{ color: 'white' }}
-                />
-                <p>
-                  {event.date && format(event.date.toDate(), 'EEEE do LLLL')}
-                </p>
-                <p>
-                  Hosted by{' '}
-                  <strong>
-                    <Link to={`/profile/${event.hostUid}`} style={{color: 'white'}}>
-                      {event.hostedBy}
-                    </Link>
-                  </strong>
-                </p>
-              </Item.Content>
-            </Item>
-          </Item.Group>
-        </Segment>
-      </Segment>
-
-      <Segment attached='bottom' clearing>
-        {!isHost && (
-          <Fragment>
-            {isGoing ? (
-              <Button onClick={() => cancelGoingToEvent(event)}>
-                Cancel My Place
-              </Button>
-            ) : (
-              <Button onClick={() => goingToEvent(event)} color='teal'>
-                JOIN THIS EVENT
-              </Button>
-            )}
-          </Fragment>
-        )}
-
-        {isHost && (
-          <Button
-            as={Link}
-            to={`/manage/${event.id}`}
-            color='orange'
-            floated='right'
-          >
-            Manage Event
-          </Button>
-        )}
-      </Segment>
-    </Segment.Group>
+    <Gallery
+      style={{
+        background: "rgb(234, 234, 234)",
+        height: "100%",
+        width: "100%"
+      }}
+      index={index}
+      onRequestChange={i => {
+        setIndex(i);
+      }}
+    >
+      {images.map(image => (
+        <GalleryImage objectFit="contain" key={image} src={image} />
+      ))}
+    </Gallery>
   );
-};
+}
 
 export default EventDetailedHeader;

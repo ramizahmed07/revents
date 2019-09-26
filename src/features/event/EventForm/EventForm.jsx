@@ -13,7 +13,7 @@ import { Segment, Form, Button, Grid, Header } from 'semantic-ui-react';
 import { createEvent, updateEvent, cancelToggle } from '../eventActions';
 import TextInput from '../../../app/common/form/TextInput';
 import TextArea from '../../../app/common/form/TextArea';
-import SelectInput from '../../../app/common/form/SelectInput';
+import ImageUpload from '../../../app/common/form/SelectInput';
 import DateInput from '../../../app/common/form/DateInput';
 import PlaceInput from '../../../app/common/form/PlaceInput';
 import { withFirestore } from 'react-redux-firebase';
@@ -57,14 +57,7 @@ const validate = combineValidators({
   date: isRequired('date')
 });
 
-const category = [
-  { key: 'drinks', text: 'Drinks', value: 'drinks' },
-  { key: 'culture', text: 'Culture', value: 'culture' },
-  { key: 'film', text: 'Film', value: 'film' },
-  { key: 'food', text: 'Food', value: 'food' },
-  { key: 'music', text: 'Music', value: 'music' },
-  { key: 'travel', text: 'Travel', value: 'travel' }
-];
+ 
 
 class EventForm extends Component {
   state = {
@@ -150,12 +143,9 @@ class EventForm extends Component {
                 component={TextInput}
                 placeholder='Give your event a name'
               />
-              <Field
-                name='category'
-                component={SelectInput}
-                options={category}
-                placeholder='What is your event about?'
-              />
+              <div>
+                <ImageUpload />
+              </div>
               <Field
                 name='description'
                 component={TextArea}

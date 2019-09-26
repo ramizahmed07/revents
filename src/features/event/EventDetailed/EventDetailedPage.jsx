@@ -53,7 +53,7 @@ class EventDetailedPage extends Component {
     const isGoing = attendees && attendees.some(a => a.id === auth.uid);
     return (
       <Grid>
-        <Grid.Column width={10}>
+        <Grid.Column style={{padding: '0', height: '480px'}} width={10}>
           <EventDetailedHeader
             event={event}
             isHost={isHost}
