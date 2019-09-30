@@ -8,8 +8,10 @@ import authReducer from '../../features/auth/authReducer';
 import asyncReducer from '../../features/async/asyncReducer';
 import { firebaseReducer } from 'react-redux-firebase';
 import { firestoreReducer } from 'redux-firestore';
+import { imageUpload } from '../../features/event/imageReducer';
 
 const rootReducer = combineReducers({
+  images: imageUpload,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
   form: FormReducer,

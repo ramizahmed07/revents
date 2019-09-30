@@ -1,13 +1,47 @@
 import { toastr } from 'react-redux-toastr';
 import { createNewEvent } from '../../app/common/util/helpers';
 
+export const imageUpload = files => {
+  return async (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firebase = getFirebase();
+    const firestore = getFirestore();
+    const userUid = getState().firebase.auth.uid;
+    const filenames = [];
+
+    const uploadedImgs = await Promise.all(
+      files.map(async f => {
+        filenames.push(f.name);
+        return await firebase
+          .storage()
+          .ref(`${userUid}/eventImages/${f.name}`)
+          .put(f);
+      })
+    );
+
+    let urls = [];
+    for (let i = 0; i < filenames.length; i++) {
+      let url = await firebase
+        .storage()
+        .ref()
+        .child(`${userUid}/eventImages/${filenames[i]}`)
+        .getDownloadURL();
+      urls.push(url);
+    }
+    console.log('URLS', urls);
+    dispatch({ type: 'IMAGE_UPLOAD_SUCCESS', payload: urls });
+  };
+};
+
 export const createEvent = event => {
   return async (dispatch, getState, { getFirestore, getFirebase }) => {
     const firestore = getFirestore();
     const firebase = getFirebase();
     const user = firebase.auth().currentUser;
     const photoURL = getState().firebase.profile.photoURL;
+    const images = getState().images;
     const newEvent = createNewEvent(user, photoURL, event);
+    newEvent.eventImages = images;
+    console.log(newEvent);
     try {
       let createdEvent = await firestore.add('events', newEvent);
       await firestore.set(`event_attendee/${createdEvent.id}_${user.uid}`, {
@@ -16,6 +50,7 @@ export const createEvent = event => {
         eventDate: event.date,
         host: true
       });
+
       toastr.success('Success!', 'Event has been created');
       return createdEvent;
     } catch (error) {
@@ -56,4 +91,3 @@ export const cancelToggle = (cancelled, eventId) => async (
     console.log(error);
   }
 };
-

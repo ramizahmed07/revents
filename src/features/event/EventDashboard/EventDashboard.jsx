@@ -8,18 +8,17 @@ import EventActivity from '../EventActivity/EventActivity';
 import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 
 const mapState = state => ({
-  events: state.firestore.ordered.events,
+  events: state.firestore.ordered.events
 });
 
 const actions = {
   createEvent,
-  updateEvent,
+  updateEvent
 };
 
 class EventDashboard extends Component {
-
   render() {
-    const { events} = this.props;
+    const { events } = this.props;
     if (!isLoaded(events)) return <LoadingComponent />;
     return (
       <Grid>

@@ -1,37 +1,49 @@
-import React, {Component} from 'react'
-import { Button } from 'semantic-ui-react'
-import {connect} from 'react-redux'
-import {uploadEventImage} from '../../../features/user/userActions'
-
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import firebase from 'firebase';
+import { imageUpload } from '../../../features/event/eventActions';
 
 class ImageUpload extends Component {
-    
-    handleChange = (event) => {
-        const image = event.target.files[0]
-        const name = image.name
-        this.props.uploadEventImage(image, name)
-    }
+  state = {
+    images: []
+  };
 
-    handleEditImage = () => {
-        const fileInput = document.getElementById('imageInput')
-        fileInput.click();
+  handleChange = event => {
+    let files = event.target.files;
+    let images = [];
+    for (let i = 0; i < files.length; i++) {
+      images.push(files[i]);
     }
+    this.setState(
+      {
+        images
+      },
+      () => {
+        this.props.imageUpload(this.state.images);
+      }
+    );
+  };
 
-    render() { 
-        return (
-            <div>
-                <input type='file' id='imageInput' hidden='hidden' onChange={this.handleChange}/>
-                <Button style={{width: '100%', marginBottom: '10px'}} type='button' onClick={this.handleEditImage}>Upload Event Images</Button>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div>
+        <input multiple type='file' onChange={this.handleChange} />
+      </div>
+    );
+  }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        uploadEventImage: (image, name) => dispatch(uploadEventImage(image, name))
-    }
-}
+// const mapState = state => {
+//   return {
+//     userUid: state.firebase.auth.uid
+//   };
+// };
 
-export default connect(null, mapDispatchToProps)(ImageUpload);
+const mapDispatchToProps = {
+  imageUpload
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(ImageUpload);
